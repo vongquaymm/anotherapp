@@ -1,5 +1,7 @@
 import kivy
 from kivy.app import App
+from android.permissions import request_permissions, Permission 
+request_permissions([Permission.BLUETOOTH_CONNECT,Permission.BLUETOOTH_SCAN ])
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
