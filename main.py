@@ -36,7 +36,7 @@ class Myroot(BoxLayout):
         self.add_widget(self.BtnLayout)
 
 
-        Clock.schedule_interval(self.update_time, 0.005)
+        Clock.schedule_interval(self.update_time, 0.01)
 
 
         Thread(target=self.recvsignal_thread, daemon=True).start()
