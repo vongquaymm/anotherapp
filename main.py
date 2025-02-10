@@ -1,11 +1,11 @@
-import kivy
+iimport kivy
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 import time
 from kivy.clock import Clock
-from jnius import autoclass
+# from jnius import autoclass
 from threading import Thread
 class Myroot(BoxLayout):
     def __init__(self, **kwargs):
@@ -33,32 +33,33 @@ class Myroot(BoxLayout):
         # Thêm các phần vào giao diện chính
         self.add_widget(self.time_displayed)
         self.add_widget(self.BtnLayout)
-        Thread(target=self.update_time, daemon=True).start()
+        
     
     def update_time(self):
         while self.running:
             self.elapsed_time = time.time() - self.start_time
             self.time_displayed.text = f"{self.elapsed_time:.3f} giây"
-            if recvsignal() == "0":
-                self.Stop_timer()
+            
+        time.sleep(0.01)
             
 
     def Start_timer(self, instance):
         if not self.running:
             self.running = True
             self.start_time = time.time()
-            sendsignal("1")
+            Thread(target=self.update_time, daemon=True).start()
+
     def Stop_timer(self, instance):
         self.running = False
         
-        sendsignal("0")
+
     def Reset_timer(self, instance):
         self.running = False
         self.elapsed_time = 0.0
         self.start_time = 0.0
         self.time_displayed.text = "0.000 giây"
         
-        sendsignal("0")
+
 
 class MyApp(App):
     def build(self):
