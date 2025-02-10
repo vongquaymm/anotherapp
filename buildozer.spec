@@ -20,7 +20,7 @@ source.include_exts = py,png,jpg,kv,atlas
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
-
+android.permissions = BLUETOOTH_ADMIN,BLUETOOTH
 # (list) List of directory to exclude (let empty to not exclude anything)
 #source.exclude_dirs = tests, bin, venv
 
