@@ -37,7 +37,7 @@ class Myroot(BoxLayout):
         self.add_widget(self.BtnLayout)
 
         # Lịch trình cập nhật giao diện mỗi 0.1 giây
-        Clock.schedule_interval(self.update_time, 0.1)
+        Clock.schedule_interval(self.update_time, 0.01)
 
         # Chạy luồng nhận tín hiệu Bluetooth
         Thread(target=self.recvsignal_thread, daemon=True).start()
