@@ -36,7 +36,7 @@ class Myroot(BoxLayout):
         Thread(target=self.update_time, daemon=True).start()
     
     def update_time(self):
-        if self.running:
+        while self.running:
             self.elapsed_time = time.time() - self.start_time
             self.time_displayed.text = f"{self.elapsed_time:.3f} giây"
             if recvsignal() == "0":
