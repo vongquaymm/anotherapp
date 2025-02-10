@@ -1,13 +1,12 @@
 import kivy
 from kivy.app import App
-from android.permissions import request_permissions, Permission 
-request_permissions([Permission.BLUETOOTH_CONNECT,Permission.BLUETOOTH_SCAN ])
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 import time
 from kivy.clock import Clock
 from jnius import autoclass
+from threading import Thread
 class Myroot(BoxLayout):
     def __init__(self, **kwargs):
         self.elapsed_time = 0.0
@@ -34,12 +33,12 @@ class Myroot(BoxLayout):
         # Thêm các phần vào giao diện chính
         self.add_widget(self.time_displayed)
         self.add_widget(self.BtnLayout)
+        Thread(target=self.update_time, daemon=True).start()
     
-    def update_time(self, instance):
+    def update_time(self):
         if self.running:
             self.elapsed_time = time.time() - self.start_time
             self.time_displayed.text = f"{self.elapsed_time:.3f} giây"
-            Clock.schedule_interval(recvsignal, 0.01)
             if recvsignal() == "0":
                 self.Stop_timer()
             
@@ -48,18 +47,17 @@ class Myroot(BoxLayout):
         if not self.running:
             self.running = True
             self.start_time = time.time()
-            Clock.schedule_interval(self.update_time, 0.01)
             sendsignal("1")
     def Stop_timer(self, instance):
         self.running = False
-        Clock.unschedule(self.update_time)
+        
         sendsignal("0")
     def Reset_timer(self, instance):
         self.running = False
         self.elapsed_time = 0.0
         self.start_time = 0.0
         self.time_displayed.text = "0.000 giây"
-        Clock.unschedule(self.update_time)
+        
         sendsignal("0")
 
 class MyApp(App):
@@ -94,6 +92,7 @@ def recvsignal():
         message = bytes(buffer[:data]).decode("utf-8").strip()
         print(message)
         return message
+Thread(target=recvsignal, daemon=True).start()
 
 MyApp().run()
 
