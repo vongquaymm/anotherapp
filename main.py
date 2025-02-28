@@ -12,7 +12,7 @@ MDScreen:
 
         Image:
             pos_hint: {"center_x":.5}
-            source: "assets/mcclogo.png"
+            source: "asset/mcclogo.png"
             size_hint_y:None
             size_hint_x:None
             height:'160dp'
